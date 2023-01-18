@@ -29,8 +29,13 @@
 ;  One routine in the source was different to the ROM code and is replaced 
 ;  by the ROM code.                       
 ;
-;*****************************************************************************
 $INCLUDE (C8051F380.INC)
+;*****************************************************************************
+;  Port to run on C8051F380
+;  11/13/2022
+;  - Get rid of Fix address in Floating point part. 
+;  - Move some text data in code rom to the end.
+;*****************************************************************************
 ;
 T2CON	EQU	0C8H ; This three lines are necessary for MS-DOS freeware 
 TL2	EQU	0CCH ; MCS-51 Family Cross Assembler  ASEM-51 V1.2 
@@ -5779,38 +5784,17 @@ WB:	DB	'W'+80H,'R'+80H
 H_RET:	RET
 	;
 $EJECT
-	ORG	1990H
+;	ORG	1990H
 	;
 OUTPUT:
 T_L:    LJMP    TEROT
 	;
-        ORG     1F78H
+;        ORG     1F78H
 	;
 CKS_I:	JB	CKS_B,CS_I
 	LJMP	401BH
 	;
 CS_I:	LJMP	2088H
-	;
-E14X:	DB	'NO DATA"'
-	;
-E11X:	DB	128+20
-	DB	'ARITH. OVERFLOW"'
-	;
-E16X:	DB	'PROGRAMMING"'
-	;
-E15X:	DB	'CAN'
-	DB	27H
-	DB	'T CONTINUE"'
-	;
-E10X:	DB	'INVALID LINE NUMBER"'
-	;
-NOROM:	DB	'PROM MODE"'
-	;
-S_N:	DB	'*MCS-51(tm) BASIC V1.1*"'
-	;
-	ORG	1FF8H
-	;
-ERS:	DB	'ERROR: "'
 	;
 $EJECT
 
@@ -5962,7 +5946,7 @@ FP_ACC8		EQU	FP_NIB1+17
 FP_ACCS		EQU	FP_NIB1+18
 	;
 $EJECT
-	ORG	1993H
+;	ORG	1993H
 	;
 	;**************************************************************
 	;
@@ -7405,7 +7389,7 @@ HOUTLO:	ANL	A,#0FH		;STRIP
 	RET
 	;
 $EJECT
-	ORG	1FEBH		;FOR LINK COMPATABILITY
+;	ORG	1FEBH		;FOR LINK COMPATABILITY
 	;
 	;
 GET_DIGIT_CHECK:	; Get a character, then check for digit
@@ -7421,6 +7405,26 @@ DC10:   JC      DC1
 DC1:    CJNE    A,#'0',DC11     ;SEE IF ASCII 0 OR GREATER
 DC11:   CPL     C
 	RET
+E14X:	DB	'NO DATA"'
+	;
+E11X:	DB	128+20
+	DB	'ARITH. OVERFLOW"'
+	;
+E16X:	DB	'PROGRAMMING"'
+	;
+E15X:	DB	'CAN'
+	DB	27H
+	DB	'T CONTINUE"'
+	;
+E10X:	DB	'INVALID LINE NUMBER"'
+	;
+NOROM:	DB	'PROM MODE"'
+	;
+S_N:	DB	'*MCS-51(tm) BASIC V1.1*"'
+	;
+	ORG	1FF8H
+	;
+ERS:	DB	'ERROR: "'
 	;
         ;***************************************************************
 	;
